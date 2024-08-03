@@ -1,0 +1,326 @@
+/* Base styles */
+*,
+*::after,
+*::before {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+:root {
+    --color-bg: linear-gradient(to top, #010329, #000005);
+    --color-glass: linear-gradient(to left, #142544, #1a9092);
+    --color-water: linear-gradient(to left, #142544, #1b6d6e);
+    --color-stem: linear-gradient(to left top, #82fdff 20%, #142544, #104d4e);
+    --color-stem-dark: linear-gradient(to top, #142544, #104d4e);
+    --color-leaf-pink: linear-gradient(to bottom, #ffa085, #fa7373, #1a233a 99%);
+    --color-leaf-purple: linear-gradient(to bottom, #ad2be0, #712291, #1a233a 99%);
+    --color-leaf-deep-pink: linear-gradient(to bottom, #ff43b6, #c22887, #1a233a 99%);
+    --color-leaf-yellow: linear-gradient(to left bottom, #ffa085, #eb8b8b, #492f2f 98%);
+
+    /* New color options */
+    --color-leaf-blue: linear-gradient(to bottom, #85c1ff, #7397fa, #1a233a 99%);
+    --color-leaf-green: linear-gradient(to bottom, #85ffab, #73fa92, #1a233a 99%);
+    --color-leaf-orange: linear-gradient(to bottom, #ffab85, #fa9273, #1a233a 99%);
+    --color-leaf-red: linear-gradient(to bottom, #ff8585, #fa7373, #1a233a 99%);
+    --color-leaf-turquoise: linear-gradient(to bottom, #85ffea, #73fad6, #1a233a 99%);
+
+      /* Additional colors */
+    --color-leaf-pastel-pink: linear-gradient(to bottom, #ffcbcb, #ffb3b3, #1a233a 99%);
+    --color-leaf-violet: linear-gradient(to bottom, #d4aaff, #b085ff, #1a233a 99%);
+
+}
+
+body {
+  background-image: var(--color-bg);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  overflow: hidden;
+}
+
+.flower {
+    position: relative;
+}
+
+/* Glass styles */
+.flower__glass {
+    width: 20vmin;
+    height: 30vmin;
+    background-image: var(--color-glass);
+    clip-path: polygon(0 0, 100% 0, 85% 100%, 15% 100%);
+    opacity: .8;
+    position: relative;
+    z-index: 1;
+    &::after,
+    &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        width: 100%;
+    }
+    &::after {
+        bottom: 0;
+        background-color: #182843;
+        height: 2vmin;
+    }
+    &::before {
+        bottom: 0;
+        background-image: var(--color-water);
+        height: 15vmin;
+    }
+}
+
+/* Wrapper styles */
+.f-wrapper {
+    position: absolute;
+    left: 45%;
+    bottom: 2vmin;
+    .flower__line {
+        width: 2vmin;
+        height: 56vmin;
+        position: relative;
+        background-image: var(--color-stem);
+        border-radius: 4vmin;
+    }
+
+    .f {
+        position: absolute;
+        top: 1vmin;
+        left: 50%;
+        transform: translateX(-50%) rotate(-10deg);
+        width: 2vmin;
+        height: 2vmin;
+
+        .flower__falling {
+            z-index: 5;
+            animation: flower-falling 5s 1.2s linear forwards;
+        }
+    }
+
+    &.flower-bend {
+        .flower__line {
+            height: 45vmin;
+            background-image: var(--color-stem-dark);
+            transform-origin: bottom, center;
+            &::after {
+                content: '';
+                position: absolute;
+                left:0;
+                top: 0;
+                width: 6vmin;
+                height: 6vmin;
+                border-radius:10vmin 10vmin 0 0;
+                border: 2vmin solid  #104d4e;
+            }
+            &::before {
+                content: '';
+                position: absolute;
+                width: 6vmin;
+                height: 2vmin;
+                background-color: #104d4e;
+                border-radius: 2vmin;
+            }
+        }
+
+        &.bend-left {
+            .flower__line {
+                &::after {
+                    transform: translate(-69%,-30%) rotate(-5deg);
+                    border-bottom: transparent;
+                    border-left: transparent;
+                }
+                &::before {
+                    left:-40%;
+                    top: -1%;
+                    transform-origin: right;
+                    transform: translate(-100%,-80%) rotate(-20deg);
+                }
+            }
+
+            .f {
+                transform: translate(-350%,-50%) rotate(-120deg);
+
+                .flower__falling {
+                    animation:flower-fall-down-left 6s 1.2s linear forwards;
+                }
+            }
+
+            
+        }
+
+        &.bend-right {
+            .flower__line {
+                &::after {
+                    transform: translate(3%,-30%) rotate(5deg);
+                    border-bottom: transparent;
+                    border-right: transparent;
+                }
+                &::before {
+                    left:40%;
+                    top: -1%;
+                    transform-origin: left;
+                    transform: translate(40%,-80%) rotate(20deg);
+                }
+            }
+
+            .f {
+                transform: translate(250%, -100%) rotate(115deg);
+
+                .flower__falling {
+                    animation:flower-fall-down-right 6s 1.2s linear forwards;
+                }
+            }
+        }
+    }
+}
+
+/* Leaf styles */
+.flower__leaf {
+    position: absolute;
+    left: 50%;
+    bottom: 2vmin;
+    transform: translateX(-50%);
+    width: 5vmin;
+    height: 14vmin;
+    clip-path: ellipse(50% 50% at 50% 50%);
+    transform-origin: center bottom;
+    animation: open-flower 2s 1s backwards;
+    &--1 {
+        width: 10vmin;
+        height: 12vmin;
+        bottom: 3vmin;
+        border-radius: 50% 50% 50% 50% / 80% 80% 20% 20%;
+        // background-image: unset !important;
+        // background-color: #e24f5f !important;
+        animation: open-flower--middle 1.4s 1s backwards;
+        filter: saturate(2);
+        &::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(23, 23, 23, 0.2);
+            filter: saturate(5);
+            border-radius: 50% 50% 50% 50% / 80% 80% 20% 20%;
+        }
+    }
+    &--2 {
+        transform: translateX(-50%) rotate(-30deg);
+    }
+    &--3 {
+        transform: translateX(-50%) rotate(-50deg);
+    }
+    &--4 {
+        transform: translateX(-50%) rotate(-70deg);
+    }
+    &--5 {
+        transform: translateX(-50%) rotate(30deg);
+    }
+    &--6 {
+        transform: translateX(-50%) rotate(50deg);
+    }
+    &--7 {
+        transform: translateX(-50%) rotate(70deg);
+    }
+    &--8 {
+        width: 13vmin;
+        height: 11vmin;
+        bottom: 6vmin;
+        left: -30%;
+        border-radius: none;
+        clip-path: none;
+        border-radius: 10vmin 2vmin 10vmin 2vmin;
+        transform: rotate(-55deg);
+        background-image: var(--color-leaf-yellow);
+    }
+}
+
+/* Keyframes */
+@keyframes open-flower {
+    0% {
+        transform: translateX(-50%) rotate(0);
+    }
+}
+
+@keyframes open-flower--middle {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) scale(0);
+  }
+}
+
+@keyframes flower-falling {
+    0%{
+        transform: rotate(-55deg);
+    }
+
+    50%{
+        bottom: 2vmin;
+        transform: rotateX(-100deg);
+    }
+
+    100%{
+        transform:translate(2vmin,100vmin) rotate(150deg);
+    }
+}
+
+@keyframes flower-fall-down-left {
+
+    0%{
+        transform: rotate(-50deg);
+    }
+
+    25%{
+        bottom: 1vmin ;
+        transform: rotateX(-100deg);
+        perspective: 0px;
+    }
+
+    50%{
+        perspective: 0px;
+        transform:translate(-20vmin,-15vmin) rotate(90deg);
+    }
+
+    100%{
+        perspective: 0px;
+        transform:translate(-100vmin,-26vmin);
+    }
+
+}
+
+@keyframes flower-fall-down-right {
+
+    0%{
+        transform: rotate(-50deg);
+    }
+
+    25%{
+        bottom: 1vmin ;
+        transform: rotateX(120deg);
+        perspective: 0px;
+    }
+
+    50%{
+        perspective: 0px;
+        transform:translate(10vmin,-45vmin) rotate(180deg);
+    }
+
+    100%{
+        perspective: 0px;
+        transform:translate(10vmin,-105vmin);
+    }
+
+}
+
+@keyframes flower-hide {
+    0%{
+        opacity: 1;
+    }
+    100%{
+        opacity: 0;
+    }
+}
